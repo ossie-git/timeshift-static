@@ -16,4 +16,5 @@ bash -x install.sh
 
 Pending tasks:
 
-* update it so that it sets a backup schedule
+* update it so that it sets a backup schedule [DONE]
+** this was already the case. No need to do anything
