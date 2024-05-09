@@ -1,3 +1,19 @@
 = timeshift-static
 
+== General
+
 This is just a *static* version of link:https://github.com/linuxmint/timeshift[timeshift] so you can easily install it and use it on headless servers.
+
+To use it:
+
+[source,]
+----
+wget https://github.com/ossie-git/timeshift-static/raw/main/install.sh
+bash -x install.sh
+----
+
+== TODO
+
+Pending tasks:
+
+* update it so that it sets a backup schedule

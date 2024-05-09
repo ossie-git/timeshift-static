@@ -19,8 +19,16 @@
 
 set -o nounset                                  # Treat unset variables as an error
 
-sudo mv timeshift-static /usr/local/bin/timeshif
-sudo chmod +x /usr/local/bin/timeshiftt
+# Fedora Requirement
+RELEASE=$(cat /etc/*release | grep "^ID=" | cut -d "=" -f 2)
+if [ "$RELEASE" = "fedora" ]; then
+  sudo dnf install -y crontabs
+fi
+
+wget https://github.com/ossie-git/timeshift-static/raw/main/timeshift-static
+wget https://raw.githubusercontent.com/ossie-git/timeshift-static/main/default.json
+sudo mv timeshift-static /usr/local/bin/timeshift
+sudo chmod +x /usr/local/bin/timeshift
 
 sudo mkdir /etc/timeshift
 sudo mv default.json /etc/timeshift/
