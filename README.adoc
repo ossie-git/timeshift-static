@@ -1,0 +1,3 @@
+= timeshift-static
+
+This is just a *static* version of link:https://github.com/linuxmint/timeshift[timeshift] so you can easily install it and use it on headless servers.
