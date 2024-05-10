@@ -51,3 +51,6 @@ sudo sed -i 's/"count_hourly" : "0",/"count_hourly": "10",/' /etc/timeshift/time
 
 # update /etc/timeshift/timeshift.json so that it excludes /root and /home
 sudo sed -i 's,/home\/.*,/home/\*\*"\,,' /etc/timeshift/timeshift.json
+
+# restart crond
+sudo systemctl restart crond
