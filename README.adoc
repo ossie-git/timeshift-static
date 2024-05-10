@@ -12,6 +12,8 @@ wget https://github.com/ossie-git/timeshift-static/raw/main/install.sh
 bash -x install.sh
 ----
 
+It will save snapshots to `/timeshift` (because it is based on Ubuntu 20.04)
+
 == TODO
 
 Pending tasks:
