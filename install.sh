@@ -43,3 +43,11 @@ sudo sed -i 's/"schedule_monthly" : "false",/"schedule_monthly": "true",/' /etc/
 sudo sed -i 's/"schedule_weekly" : "false",/"schedule_weekly": "true",/' /etc/timeshift/timeshift.json
 sudo sed -i 's/"schedule_daily" : "false",/"schedule_daily": "true",/' /etc/timeshift/timeshift.json
 sudo sed -i 's/"schedule_hourly" : "false",/"schedule_hourly": "true",/' /etc/timeshift/timeshift.json
+
+sudo sed -i 's/"count_monthly" : "0",/"count_monthly": "3",/' /etc/timeshift/timeshift.json
+sudo sed -i 's/"count_weekly" : "0",/"count_weekly": "4",/' /etc/timeshift/timeshift.json
+sudo sed -i 's/"count_daily" : "0",/"count_daily": "7",/' /etc/timeshift/timeshift.json
+sudo sed -i 's/"count_hourly" : "0",/"count_hourly": "10",/' /etc/timeshift/timeshift.json
+
+# update /etc/timeshift/timeshift.json so that it excludes /root and /home
+sudo sed -i 's,/home\/.*,/home/\*\*"\,,' /etc/timeshift/timeshift.json
