@@ -52,5 +52,11 @@ sudo sed -i 's/"count_hourly" : "0",/"count_hourly": "10",/' /etc/timeshift/time
 # update /etc/timeshift/timeshift.json so that it excludes /root and /home
 sudo sed -i 's,/home\/.*,/home/\*\*"\,,' /etc/timeshift/timeshift.json
 
+# download timeshift-hourly
+wget https://raw.githubusercontent.com/ossie-git/timeshift-static/main/timeshift-hourly
+sudo mv timeshift-hourly /etc/cron.d/
+sudo chmod 644 /etc/cron.d/timeshift-hourly
+sudo chown root.root /etc/cron.d/timeshift-hourly
+
 # restart crond
 sudo systemctl restart crond
