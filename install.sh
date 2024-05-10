@@ -37,3 +37,9 @@ sudo mv default.json /etc/timeshift/
 DEV=$(df / | awk '{print $1}' | tail -n +2)
 
 sudo timeshift --create --comments "First Snapshot" --snapshot-device "$DEV"
+
+# update /etc/timeshift/timeshift.json so that it starts taking scheduled snapshots
+sudo sed -i 's/"schedule_monthly" : "false",/"schedule_monthly": "true",/' /etc/timeshift/timeshift.json
+sudo sed -i 's/"schedule_weekly" : "false",/"schedule_weekly": "true",/' /etc/timeshift/timeshift.json
+sudo sed -i 's/"schedule_daily" : "false",/"schedule_daily": "true",/' /etc/timeshift/timeshift.json
+sudo sed -i 's/"schedule_hourly" : "false",/"schedule_hourly": "true",/' /etc/timeshift/timeshift.json
