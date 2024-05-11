@@ -21,9 +21,19 @@ set -o nounset                                  # Treat unset variables as an er
 
 # Fedora Requirement
 RELEASE=$(cat /etc/*release | grep "^ID=" | cut -d "=" -f 2)
-if [ "$RELEASE" = "fedora" ]; then
-  sudo dnf install -y crontabs
-fi
+
+case "$RELEASE" in
+  fedora|rocky|centos|rhel)
+    sudo dnf install -y crontabs
+    ;;
+  #*)
+    # do ...
+    # ;;
+esac
+
+#if [ "$RELEASE" = "fedora" ]; then
+#  sudo dnf install -y crontabs
+#fi
 
 wget https://github.com/ossie-git/timeshift-static/raw/main/timeshift-static
 wget https://raw.githubusercontent.com/ossie-git/timeshift-static/main/default.json
@@ -64,5 +74,12 @@ if [ -x "$(command -v restorecon)" ]; then
 fi
 
 # restart crond
-sudo systemctl stop crond
-sudo systemctl start crond
+case "$RELEASE" in
+  fedora|rocky|centos|rhel)
+    sudo systemctl stop crond
+    sudo systemctl start crond
+    ;;
+  #*)
+    # do ...
+    # ;;
+esac
