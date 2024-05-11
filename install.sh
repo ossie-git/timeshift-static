@@ -5,7 +5,7 @@
 #
 #         USAGE: ./install.sh
 #
-#   DESCRIPTION: 
+#   DESCRIPTION: Install timeshift (static version)
 #
 #       OPTIONS: ---
 #  REQUIREMENTS: ---
@@ -60,7 +60,7 @@ sudo chown root:root /etc/cron.d/timeshift-hourly
 
 # fix SELinux label if SELinux is on the system
 if [ -x "$(command -v restorecon)" ]; then
-    sudo /sbin/restorecon -R -v /etc/cron.d/timeshift-hourly
+    sudo restorecon -R -v /etc/cron.d/timeshift-hourly
 fi
 
 # restart crond
