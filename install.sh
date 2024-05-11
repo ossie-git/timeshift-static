@@ -36,8 +36,7 @@ sudo mv default.json /etc/timeshift/
 # save to the root partition (modify this if you don't want this)
 DEV=$(df / | awk '{print $1}' | tail -n +2)
 
-sudo hash -r
-sudo timeshift --create --comments "First Snapshot" --snapshot-device "$DEV"
+sudo /usr/local/bin/timeshift --create --comments "First Snapshot" --snapshot-device "$DEV"
 
 # update /etc/timeshift/timeshift.json so that it starts taking scheduled snapshots
 sudo sed -i 's/"schedule_monthly" : "false",/"schedule_monthly": "true",/' /etc/timeshift/timeshift.json
