@@ -20,7 +20,7 @@
 set -o nounset                                  # Treat unset variables as an error
 
 # Get Distribution
-RELEASE=$(cat /etc/*release | grep "^ID=" | cut -d "=" -f 2)
+RELEASE=$(cat /etc/*release | grep "^ID=" | cut -d "=" -f 2 | tr -d '"')
 
 # RHEL is not supported as it requires first installing repos to install rsync
 # Refer to https://snapcraft.io/install/rsync-leftyfb/rhel for more
@@ -39,31 +39,25 @@ esac
 #fi
 
 wget https://github.com/ossie-git/timeshift-static/raw/main/timeshift-static
-wget https://raw.githubusercontent.com/ossie-git/timeshift-static/main/default.json
+wget https://raw.githubusercontent.com/ossie-git/timeshift-static/main/timeshift.json
 sudo mv timeshift-static /usr/local/bin/timeshift
 sudo chmod +x /usr/local/bin/timeshift
 
 sudo mkdir /etc/timeshift
-sudo mv default.json /etc/timeshift/
+sudo mv timeshift.json /etc/timeshift/
 
-# save to the root partition (modify this if you don't want this)
-DEV=$(df / | awk '{print $1}' | tail -n +2)
+# update our timeshift.json with the UUID of our root partition
+UUID=`lsblk -no UUID $(df -P "/" | awk 'END{print $1}')`
 
-sudo /usr/local/bin/timeshift --create --comments "First Snapshot" --snapshot-device "$DEV"
+if [ -z "${UUID}"  ]; then 
+  echo "Could not extract UUID for root partition. Exiting"
+  exit 1
+fi
 
 # update /etc/timeshift/timeshift.json so that it starts taking scheduled snapshots
-sudo sed -i 's/"schedule_monthly" : "false",/"schedule_monthly": "true",/' /etc/timeshift/timeshift.json
-sudo sed -i 's/"schedule_weekly" : "false",/"schedule_weekly": "true",/' /etc/timeshift/timeshift.json
-sudo sed -i 's/"schedule_daily" : "false",/"schedule_daily": "true",/' /etc/timeshift/timeshift.json
-sudo sed -i 's/"schedule_hourly" : "false",/"schedule_hourly": "true",/' /etc/timeshift/timeshift.json
+sudo sed -i "s/\"backup_device_uuid\" : \"\"\,/\"backup_device_uuid\": \"$UUID\",/" /etc/timeshift/timeshift.json
 
-sudo sed -i 's/"count_monthly" : "0",/"count_monthly": "3",/' /etc/timeshift/timeshift.json
-sudo sed -i 's/"count_weekly" : "0",/"count_weekly": "4",/' /etc/timeshift/timeshift.json
-sudo sed -i 's/"count_daily" : "0",/"count_daily": "7",/' /etc/timeshift/timeshift.json
-sudo sed -i 's/"count_hourly" : "0",/"count_hourly": "10",/' /etc/timeshift/timeshift.json
-
-# update /etc/timeshift/timeshift.json so that it excludes /root and /home
-sudo sed -i 's,/home\/.*,/home/\*\*"\,,' /etc/timeshift/timeshift.json
+sudo /usr/local/bin/timeshift --create --comments "First Snapshot"
 
 # download timeshift-hourly
 wget https://raw.githubusercontent.com/ossie-git/timeshift-static/main/timeshift-hourly
