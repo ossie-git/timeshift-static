@@ -19,12 +19,15 @@
 
 set -o nounset                                  # Treat unset variables as an error
 
-# Fedora Requirement
+# Get Distribution
 RELEASE=$(cat /etc/*release | grep "^ID=" | cut -d "=" -f 2)
 
+# RHEL is not supported as it requires first installing repos to install rsync
+# Refer to https://snapcraft.io/install/rsync-leftyfb/rhel for more
+
 case "$RELEASE" in
-  fedora|rocky|centos|rhel)
-    sudo dnf install -y crontabs
+  fedora|rocky|centos)
+    sudo dnf install -y crontabs rsync
     ;;
   #*)
     # do ...
@@ -75,7 +78,7 @@ fi
 
 # restart crond
 case "$RELEASE" in
-  fedora|rocky|centos|rhel)
+  fedora|rocky|centos)
     sudo systemctl stop crond
     sudo systemctl start crond
     ;;
