@@ -59,7 +59,7 @@ sudo chmod 644 /etc/cron.d/timeshift-hourly
 sudo chown root:root /etc/cron.d/timeshift-hourly
 
 # fix SELinux label if SELinux is on the system
-if [ -x "$(command -v restorecon1)" ]; then
+if [ -x "$(command -v restorecon)" ]; then
     sudo /sbin/restorecon -R -v /etc/cron.d/timeshift-hourly
 fi
 
