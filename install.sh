@@ -27,7 +27,7 @@ RELEASE=$(cat /etc/*release | grep "^ID=" | cut -d "=" -f 2 | tr -d '"')
 
 case "$RELEASE" in
   fedora|rocky|centos)
-    sudo dnf install -y crontabs rsync
+    sudo yum install -y crontabs rsync
     ;;
   #*)
     # do ...
